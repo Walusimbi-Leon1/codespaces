@@ -1,0 +1,100 @@
+#EXTM3U
+
+#EXTINF:-1 tvg-id="" tvg-name="Africa 24 Sport" group-title="Sports",Africa 24 Sport
+https://africa24.vedge.infomaniak.com/livecast/ik:africa24sport/manifest.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Alkass Four" group-title="Sports",Alkass Four
+https://liveeu-gcp.alkassdigital.net/alkass4-p/main.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Alkass SHOOF" group-title="Sports",Alkass SHOOF
+https://liveeu-gcp.alkassdigital.net/shooflive/main.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Alkass Six" group-title="Sports",Alkass Six
+https://liveeu-gcp.alkassdigital.net/alkass6-p/main.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Alkass Three" group-title="Sports",Alkass Three
+https://liveeu-gcp.alkassdigital.net/alkass3-p/main.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Arryadia HD" group-title="Sports",Arryadia HD
+https://stream-lb.livemediama.com/arryadia-hd-01/hls/master.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Arryadia HD 2" group-title="Sports",Arryadia HD 2
+https://stream-lb.livemediama.com/arryadia-hd-02/hls/master.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="BEK TV Sports West" group-title="Sports",BEK TV Sports West
+https://cdn3.wowza.com/5/ZWQ1K2NYTmpFbGsr/BEK-WOWZA-1/smil:BEKPRIMEW.smil/playlist.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Bellator MMA" group-title="Sports",Bellator MMA
+https://jmp2.uk/plu-5ebc8688f3697d00072f7cf8.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="CCTV-Billiards" group-title="Sports",CCTV-Billiards
+http://38.75.136.137:98/gslb/dsdqpub/ystq.m3u8?auth=testpub
+
+#EXTINF:-1 tvg-id="" tvg-name="CCTV-Golf & Tennis" group-title="Sports",CCTV-Golf & Tennis
+http://38.75.136.137:98/gslb/dsdqpub/gefwq.m3u8?auth=testpub
+
+#EXTINF:-1 tvg-id="" tvg-name="CCTV-Storm Footbal" group-title="Sports",CCTV-Storm Footbal
+http://38.75.136.137:98/gslb/dsdqpub/fyzq.m3u8?auth=testpub
+
+#EXTINF:-1 tvg-id="" tvg-name="DAZN Combat" group-title="Sports",DAZN Combat
+https://dazn-combat-rakuten.amagi.tv/hls/amagi_hls_data_rakutenAA-dazn-combat-rakuten/CDN/master.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="DIRECTV SPORT" group-title="Sports",DIRECTV SPORT
+https://cors-proxy.cooks.fyi/http://147.135.114.221:8001/play/a00m/index.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="FIFA+" group-title="Sports",FIFA+
+https://jmp2.uk/plu-660c29b5aec9680008f5b4a4.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="FIFA+ Women" group-title="Sports",FIFA+ Women
+https://cffda8ff.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/U2Ftc3VuZy1nYl9GSUZBUGx1c3dvbWVuX0hMUw/playlist.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="FITE 24/7" group-title="Sports",FITE 24/7
+https://d3d85c7qkywguj.cloudfront.net/scheduler/scheduleMaster/263.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Fox Deportes" group-title="Sports",Fox Deportes
+https://cors-proxy.cooks.fyi/http://23.237.104.106:8080/USA_FOX_DEPORTES/index.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="FOX Sports" group-title="Sports",FOX Sports
+https://jmp2.uk/plu-5a74b8e1e22a61737979c6bf.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="FS1 HD" group-title="Sports",FS1 HD
+https://cors-proxy.cooks.fyi/http://190.11.225.124:5000/live/fs1_hd/playlist.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Futbol" group-title="Sports",Futbol
+https://live.teleradiocom.tj/8/3m.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="GLORY Kickboxing" group-title="Sports",GLORY Kickboxing
+https://6f972d29.wurl.com/master/f36d25e7e52f1ba8d7e56eb859c636563214f541/UmFrdXRlblRWLWV1X0dsb3J5S2lja2JveGluZ19ITFM/playlist.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Hard Knocks" group-title="Sports",Hard Knocks
+https://d3uyzhwvmemdyf.cloudfront.net/v1/master/9d062541f2ff39b5c0f48b743c6411d25f62fc25/Hard-Knocks-DistroTV/109.m3u8?ads.vf=6pOF6kgy418
+
+#EXTINF:-1 tvg-id="" tvg-name="Horse TV" group-title="Sports",Horse TV
+https://a-cdn.klowdtv.com/live2/horsetv_720p/playlist.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Arryadia HD 2" group-title="Sports",Arryadia HD 2
+https://stream-lb.livemediama.com/arryadia-hd-02/hls/master.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Arryadia HD 2" group-title="Sports",Arryadia HD 2
+https://stream-lb.livemediama.com/arryadia-hd-02/hls/master.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Arryadia HD 2" group-title="Sports",Arryadia HD 2
+https://stream-lb.livemediama.com/arryadia-hd-02/hls/master.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Arryadia HD 2" group-title="Sports",Arryadia HD 2
+https://stream-lb.livemediama.com/arryadia-hd-02/hls/master.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Arryadia HD 2" group-title="Sports",Arryadia HD 2
+https://stream-lb.livemediama.com/arryadia-hd-02/hls/master.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Arryadia HD 2" group-title="Sports",Arryadia HD 2
+https://stream-lb.livemediama.com/arryadia-hd-02/hls/master.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Arryadia HD 2" group-title="Sports",Arryadia HD 2
+https://stream-lb.livemediama.com/arryadia-hd-02/hls/master.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Arryadia HD 2" group-title="Sports",Arryadia HD 2
+https://stream-lb.livemediama.com/arryadia-hd-02/hls/master.m3u8
+
+#EXTINF:-1 tvg-id="" tvg-name="Arryadia HD 2" group-title="Sports",Arryadia HD 2
+https://stream-lb.livemediama.com/arryadia-hd-02/hls/master.m3u8
