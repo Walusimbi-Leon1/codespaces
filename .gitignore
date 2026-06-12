@@ -1,0 +1,15 @@
+# Puter - runtime data (Docker containers own these)
+Puter/puter/data/
+Puter/.env
+
+# WhatsApp Web - session/auth data
+whatsapp-web.js/.wwebjs_auth/
+whatsapp-web.js/node_modules/
+
+# Log files
+*.log
+/tmp/
+
+# OS files
+.DS_Store
+Thumbs.db
