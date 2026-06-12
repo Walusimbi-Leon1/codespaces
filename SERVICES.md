@@ -13,6 +13,23 @@
 | `whatsapp` | Start WhatsApp Web client |
 | `puter` | Start Puter cloud desktop |
 
+## 🆕 Setting Up a New Codespace (Any Branch)
+
+When you create a new Codespace on any branch, everything auto-installs via `devcontainer.json`.
+
+**But if you need to do it manually:**
+```bash
+cd /workspaces/codespaces
+bash scripts/setup.sh
+```
+
+Then set your secrets:
+```bash
+nano ~/.codespace-secrets
+```
+
+**Scripts live in the repo at:** `scripts/` — they're automatically linked to `~/.local/bin/` by the setup script.
+
 ---
 
 ## 📡 Services & Ports

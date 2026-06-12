@@ -1,0 +1,208 @@
+#!/bin/bash
+# puter — Start/stop Puter cloud desktop with auto port forwarding
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+PUTER_DIR="/workspaces/codespaces/Puter"
+PUTER_PORT=4100
+
+# ─── Load config for credentials ─────────────────────────────
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/lib/config.sh"
+PASSWORD="$PUTER_PASSWORD"
+USERNAME="$PUTER_USERNAME"
+
+LOGDIR="$HOME/.openclaw/logs"
+mkdir -p "$LOGDIR"
+
+is_listening() {
+  ss -tlnp 2>/dev/null | grep -q ":$1 "
+}
+
+# ─── Tunnel management ───────────────────────────────────────
+start_tunnel() {
+    local port=$1
+    local name=$2
+    
+    # Kill any existing tunnel for this port
+    pkill -f "cloudflared.*$port" 2>/dev/null || true
+    sleep 1
+    
+    local logfile="$LOGDIR/${name}-tunnel.log"
+    ~/.9router/bin/cloudflared tunnel --url "http://localhost:$port" > "$logfile" 2>&1 &
+    sleep 4
+    
+    local url=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' "$logfile" 2>/dev/null | head -1)
+    echo "$url"
+}
+
+stop_tunnel() {
+    local port=$1
+    pkill -f "cloudflared.*$port" 2>/dev/null || true
+}
+
+# ─── Show status ─────────────────────────────────────────────
+show_status() {
+    echo ""
+    echo -e "${CYAN}╔══════════════════════════════════════╗${NC}"
+    echo -e "${CYAN}║     ${BOLD}Puter Cloud Desktop${NC}${CYAN}               ║${NC}"
+    echo -e "${CYAN}╚══════════════════════════════════════╝${NC}"
+    echo ""
+    
+    local RUNNING=$(docker ps --format "{{.Names}}" 2>/dev/null | grep "^puter$" || echo "")
+    
+    if [ -n "$RUNNING" ]; then
+        echo -e "  ${GREEN}✅ Puter is running${NC}"
+        echo ""
+        echo -e "  ${BOLD}Local URL:${NC}  ${CYAN}http://localhost:$PUTER_PORT${NC}"
+        
+        # Check for tunnel
+        local tunnel_url=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' "$LOGDIR/puter-tunnel.log" 2>/dev/null | head -1)
+        if [ -n "$tunnel_url" ]; then
+            echo -e "  ${BOLD}Tunnel URL:${NC} ${CYAN}$tunnel_url${NC}"
+        fi
+        
+        echo ""
+        echo -e "  ${BOLD}Login:${NC}"
+        echo -e "    Username: ${CYAN}admin${NC}"
+        echo -e "    Password: ${CYAN}$PASSWORD${NC}"
+        echo ""
+        echo -e "  ${BOLD}Containers:${NC}"
+        docker ps --format "table {{.Names}}\t{{.Status}}" 2>/dev/null | grep puter | sed 's/^/    /'
+        echo ""
+        echo -e "  ${YELLOW}Commands:${NC}"
+        echo -e "    ${CYAN}puter stop${NC}     — stop Puter"
+        echo -e "    ${CYAN}puter logs${NC}     — view logs"
+        echo -e "    ${CYAN}puter creds${NC}    — show login credentials"
+    else
+        echo -e "  ${RED}❌ Puter is not running${NC}"
+        echo ""
+        echo -e "  ${YELLOW}Start:${NC}   ${CYAN}puter${NC}"
+    fi
+    echo ""
+}
+
+# ─── Default: start + tunnel ─────────────────────────────────
+if [ $# -eq 0 ]; then
+    echo ""
+    echo -e "${CYAN}╔══════════════════════════════════════╗${NC}"
+    echo -e "${CYAN}║     ${BOLD}Puter Cloud Desktop${NC}${CYAN}               ║${NC}"
+    echo -e "${CYAN}╚══════════════════════════════════════╝${NC}"
+    echo ""
+    
+    # ─── Start or verify containers ─────────────────────────
+    local RUNNING=$(docker ps --format "{{.Names}}" 2>/dev/null | grep "^puter$" || echo "")
+    
+    if [ -n "$RUNNING" ]; then
+        echo -e "  ${GREEN}✓${NC} Puter already running"
+    else
+        echo -e "  ${YELLOW}→${NC} Starting Puter..."
+        cd "$PUTER_DIR" && docker compose up -d 2>&1
+        
+        # Wait for it to be ready
+        for i in $(seq 1 30); do
+            READY=$(docker inspect --format='{{.State.Health.Status}}' puter-nginx 2>/dev/null)
+            if [ "$READY" = "healthy" ] && is_listening $PUTER_PORT; then
+                echo -e "  ${GREEN}✓${NC} Puter ready on port $PUTER_PORT"
+                break
+            fi
+            if [ $((i % 5)) -eq 0 ]; then
+                echo -e "  ${YELLOW}  waiting... (${i}s)${NC}"
+            fi
+            sleep 2
+        done
+    fi
+    
+    echo ""
+    
+    # ─── Port forwarding via cloudflared tunnel ────────────
+    echo -e "${BOLD}Port Forwarding${NC}"
+    echo -e "  ${BOLD}Local:${NC}       ${CYAN}http://localhost:$PUTER_PORT${NC} ✅ (Codespace auto-forwards)"
+    
+    # Start a tunnel for external access
+    TUNNEL_PID=$(pgrep -f "cloudflared.*$PUTER_PORT" 2>/dev/null | head -1)
+    TUNNEL_URL=$(grep -o 'https://[a-z0-9-]*\.trycloudflare\.com' "$LOGDIR/puter-tunnel.log" 2>/dev/null | head -1)
+    
+    if [ -z "$TUNNEL_PID" ]; then
+        echo -e "  ${YELLOW}→${NC} Setting up public tunnel..."
+        sleep 1
+        local url
+        url=$(start_tunnel $PUTER_PORT "puter")
+        if [ -n "$url" ]; then
+            echo -e "  ${GREEN}✓${NC} Tunnel:       ${CYAN}$url${NC}"
+        else
+            echo -e "  ${RED}✗${NC} Tunnel failed — localhost only"
+        fi
+    elif [ -n "$TUNNEL_URL" ]; then
+        echo -e "  ${GREEN}✓${NC} Tunnel:       ${CYAN}$TUNNEL_URL${NC}"
+    fi
+    
+    # ─── Show credentials ──────────────────────────────────
+    echo ""
+    echo -e "${BOLD}Login Credentials${NC}"
+    echo -e "  Username: ${CYAN}admin${NC}"
+    echo -e "  Password: ${CYAN}$PASSWORD${NC}"
+    
+    # ─── Show container status ─────────────────────────────
+    echo ""
+    echo -e "${BOLD}Status${NC}"
+    docker ps --format "table {{.Names}}\t{{.Status}}" 2>/dev/null | grep puter | sed 's/^/  /'
+    
+    echo ""
+    echo -e "  ${YELLOW}Stop:${NC}   ${CYAN}puter stop${NC}   |   ${YELLOW}Logs:${NC}   ${CYAN}puter logs${NC}"
+    echo ""
+    
+    exit 0
+fi
+
+# ─── Commands ─────────────────────────────────────────────────
+case "${1}" in
+    start|up)
+        echo -e "${YELLOW}→${NC} Starting Puter..."
+        cd "$PUTER_DIR" && docker compose up -d 2>&1
+        echo -e "${GREEN}✓${NC} Puter starting..."
+        # Also start tunnel
+        start_tunnel $PUTER_PORT "puter" > /dev/null
+        show_status
+        ;;
+    stop|down)
+        echo -e "${YELLOW}→${NC} Stopping Puter and closing tunnel..."
+        stop_tunnel $PUTER_PORT
+        cd "$PUTER_DIR" && docker compose down 2>&1
+        echo -e "${GREEN}✓${NC} Puter stopped"
+        ;;
+    restart)
+        echo -e "${YELLOW}→${NC} Restarting Puter..."
+        cd "$PUTER_DIR" && docker compose restart 2>&1
+        echo -e "${GREEN}✓${NC} Puter restarted"
+        show_status
+        ;;
+    logs)
+        cd "$PUTER_DIR" && docker compose logs -f --tail=50 "${2:-puter}"
+        ;;
+    password|creds)
+        echo ""
+        echo -e "  ${BOLD}Username:${NC} ${CYAN}admin${NC}"
+        echo -e "  ${BOLD}Password:${NC} ${CYAN}$PASSWORD${NC}"
+        echo ""
+        ;;
+    tunnel)
+        local url=$(start_tunnel $PUTER_PORT "puter")
+        if [ -n "$url" ]; then
+            echo -e "${GREEN}✓${NC} Tunnel URL: ${CYAN}$url${NC}"
+        else
+            echo -e "${RED}✗${NC} Tunnel failed"
+        fi
+        ;;
+    status)
+        show_status
+        ;;
+    *)
+        echo "Usage: puter [start|stop|restart|status|logs|creds|tunnel]"
+        ;;
+esac

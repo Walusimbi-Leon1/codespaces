@@ -10,6 +10,9 @@ whatsapp-web.js/node_modules/
 *.log
 /tmp/
 
+# Codespace secrets (API keys, passwords, etc.)
+.codespace-secrets
+
 # OS files
 .DS_Store
 Thumbs.db

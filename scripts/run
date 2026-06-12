@@ -1,0 +1,17 @@
+#!/bin/bash
+# run — Smart command dispatch
+
+case "$1" in
+  openclaw)
+    shift
+    exec ~/.local/bin/run-openclaw "$@"
+    ;;
+  *)
+    echo "Usage: run <command>"
+    echo ""
+    echo "Available commands:"
+    echo "  openclaw    Start 9router + OpenClaw gateway"
+    echo ""
+    exit 1
+    ;;
+esac

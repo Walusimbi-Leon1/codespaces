@@ -1,0 +1,36 @@
+{
+    "name": "Codespace Services",
+    "image": "mcr.microsoft.com/devcontainers/universal:2",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/node:1": {}
+    },
+    "postCreateCommand": "bash /workspaces/codespaces/scripts/setup.sh",
+    "customizations": {
+        "codespaces": {
+            "openFiles": ["README.md", "SERVICES.md"],
+            "repositories": {
+                "": {
+                    "permissions": {
+                        "contents": "write"
+                    }
+                }
+            }
+        }
+    },
+    "forwardPorts": [18789, 4100, 3030],
+    "portsAttributes": {
+        "18789": {
+            "label": "OpenClaw Control UI",
+            "onAutoForward": "notify"
+        },
+        "4100": {
+            "label": "Puter Cloud Desktop",
+            "onAutoForward": "notify"
+        },
+        "3030": {
+            "label": "WhatsApp Web",
+            "onAutoForward": "notify"
+        }
+    }
+}
