@@ -1,2 +1,3 @@
-2026/06/12-18:45:13.433 81e6 Creating DB /workspaces/codespaces/whatsapp-web.js/.wwebjs_auth/session/Default/shared_proto_db/metadata since it was missing.
-2026/06/12-18:45:13.473 81e6 Reusing MANIFEST /workspaces/codespaces/whatsapp-web.js/.wwebjs_auth/session/Default/shared_proto_db/metadata/MANIFEST-000001
+2026/06/13-05:33:10.478 51e3 Reusing MANIFEST /workspaces/codespaces/whatsapp-web.js/.wwebjs_auth/session/Default/shared_proto_db/metadata/MANIFEST-000001
+2026/06/13-05:33:10.478 51e3 Recovering log #3
+2026/06/13-05:33:10.563 51e3 Reusing old log /workspaces/codespaces/whatsapp-web.js/.wwebjs_auth/session/Default/shared_proto_db/metadata/000003.log 

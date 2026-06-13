@@ -270,6 +270,38 @@ services:
       retries: 3
       start_period: 30s
 
+  chromium:
+    image: lscr.io/linuxserver/chromium:latest
+    container_name: puter-chromium
+    restart: unless-stopped
+    environment:
+      - TITLE=Google Chrome
+      - LC_ALL=en_US.UTF-8
+      - TZ=Etc/UTC
+      - DARK_MODE=true
+      - CUSTOM_USER=
+      - PASSWORD=
+      - ENABLE_CJK_FONTS=false
+      - SELKIES_AUDIO_DEVICE_NAME=auto_null.monitor
+      - SELKIES_ENABLE_DUAL_MODE=true
+    volumes:
+      - ./puter/data/chromium:/config:z
+      - /dev/shm:/dev/shm
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    shm_size: "2gb"
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:3000/ > /dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+
   nginx:
     image: nginx:1.27-alpine
     container_name: puter-nginx
